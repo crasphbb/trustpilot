@@ -13,15 +13,20 @@ class Authorize
 {
     use HasHttpRequest;
 
-    private $config;
-    private $loginUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword';
-    private $codeUrl = 'https://authenticate.trustpilot.com/business-login';
-    private $tokenUrl = 'https://authenticate.b2b.trustpilot.com/v1/oauth/accesstoken';
-    private $key;
-    private $clientId;
-    private $redirectUrl = 'https://businessapp.b2b.trustpilot.com/reviews/?locale=en-US';
+    private array $config;
+    private string $loginUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword';
+    private string $codeUrl = 'https://authenticate.trustpilot.com/business-login';
+    private string $tokenUrl = 'https://authenticate.b2b.trustpilot.com/v1/oauth/accesstoken';
+    private mixed $key;
+    private mixed $clientId;
+    private string $redirectUrl = 'https://businessapp.b2b.trustpilot.com/reviews/?locale=en-US';
 
 
+    /**
+     * Authorize constructor.
+     *
+     * @param array $config
+     */
     public function __construct(array $config = [])
     {
         $this->config = $config;
@@ -38,7 +43,7 @@ class Authorize
      */
     public function login(): mixed
     {
-        $parmas = [
+        $params = [
             'key' => $this->key,
         ];
         $body = [
@@ -46,7 +51,7 @@ class Authorize
             'email'             => $this->config['email'],
             'password'          => $this->config['password'],
         ];
-        $url = $this->loginUrl . '?' . http_build_query($parmas);
+        $url = $this->loginUrl . '?' . http_build_query($params);
         $response = $this->post($url, $body);
         if (!isset($response['idToken'])) {
             throw new \Exception('模拟登录失败');
@@ -100,7 +105,7 @@ class Authorize
     {
         $body = [
             "authorizationCode" => $code,
-            "redirectUri"       => $this->redirectUrl,
+            "redirectUri"       => $this->redirectUrl
         ];
         $response = $this->post($this->tokenUrl, $body, [
             'Content-Type' => 'application/json',

@@ -18,15 +18,16 @@ class Search
      * @author huangbinbin
      * @date   2022/10/27 11:35
      */
-    private $token;
+    private string $token;
 
 
-    private $searchUrl = 'https://api.trustpilot.com/v1/private/business-units/62561753aaf3ad9a54921d2f/statistics/search';
+    private string $searchUrl = 'https://api.trustpilot.com/v1/private/business-units/62561753aaf3ad9a54921d2f/statistics/search';
 
     /**
      * Search constructor.
      *
      * @param string $token
+     * @param array  $config
      */
     public function __construct(string $token, array $config)
     {
