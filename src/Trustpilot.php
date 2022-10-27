@@ -24,7 +24,11 @@ class Trustpilot
      * @date   2022/10/27 11:06
      */
     private $validateKeys = [
-        'email','password','client_id','key'
+        'email',
+        'password',
+        'client_id',
+        'key',
+        'business_id',
     ];
     /**
      * @var mixed
@@ -46,11 +50,11 @@ class Trustpilot
      */
     public function validate()
     {
-          foreach($this->config as $key => $config) {
-              if(!in_array($key,$this->validateKeys) || !$config) {
-                  throw new \Exception('缺少配置'.$key);
-              }
-          }
+        foreach ($this->validateKeys as  $validateKey) {
+            if (!in_array($validateKey, \array_keys($this->config)) || !$this->config[$validateKey]) {
+                throw new \Exception('缺少配置' . $validateKey);
+            }
+        }
     }
 
     /**
@@ -60,9 +64,9 @@ class Trustpilot
      */
     public function getToken()
     {
-        try{
+        try {
             $token = (new Authorize($this->config))->login();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
 
@@ -80,7 +84,8 @@ class Trustpilot
      */
     public function search(int $page = 1, int $limit = 10, array $filter = [])
     {
-        $search = new Search($this->token,$this->config);
-        return $search->search($page,$limit,$filter);
+        $search = new Search($this->token, $this->config);
+
+        return $search->search($page, $limit, $filter);
     }
 }

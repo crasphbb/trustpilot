@@ -21,7 +21,7 @@ class Search
     private string $token;
 
 
-    private string $searchUrl = 'https://api.trustpilot.com/v1/private/business-units/62561753aaf3ad9a54921d2f/statistics/search';
+    private string $searchUrl = "https://api.trustpilot.com/v1/private/business-units/%s/statistics/search";
 
     /**
      * Search constructor.
@@ -56,8 +56,8 @@ class Search
             'ApiKey'        => $this->config['client_id'],
             'Authorization' => 'Bearer ' . $this->token,
         ];
-        $response = $this->post($this->searchUrl, $body, $headers);
-        print_r($response);
+        $url = sprintf($this->searchUrl,$this->config['business_id']);
+        $response = $this->postJson($url, $body, $headers);
         if (!isset($response['results'])) {
             throw new \Exception('搜索失败');
         }
@@ -76,12 +76,11 @@ class Search
     {
         $filters = [];
         if (isset($filter['begin_time'])) {
-            $filters['fromDate'] = gmdate('Y-m-d H:i:s', strtotime($filter['begin_time']));
+            $filters['fromDate'] = gmdate(DATE_ISO8601, strtotime($filter['begin_time']));
         }
         if (isset($filter['end_time'])) {
-            $filters['endDate'] = gmdate('Y-m-d H:i:s', strtotime($filter['end_time']));
+            $filters['endDate'] = gmdate(DATE_ISO8601, strtotime($filter['end_time']));
         }
-
         return $filters;
     }
 

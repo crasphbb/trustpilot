@@ -107,11 +107,11 @@ class Authorize
             "authorizationCode" => $code,
             "redirectUri"       => $this->redirectUrl
         ];
-        $response = $this->post($this->tokenUrl, $body, [
+        $response = $this->postJson($this->tokenUrl, $body, [
             'Content-Type' => 'application/json',
         ]);
         if (!isset($response['accessToken'])) {
-            throw new \Exception('模拟登录失败');
+            throw new \Exception($response['message'] ?? '模拟登录失败');
         }
 
         return $response['accessToken'];
