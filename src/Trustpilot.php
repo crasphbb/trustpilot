@@ -37,6 +37,9 @@ class Trustpilot
      */
     private mixed $token;
 
+    /**
+     * @throws \Exception
+     */
     public function __construct(array $config = [])
     {
         $this->config = $config;
