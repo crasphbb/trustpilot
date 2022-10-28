@@ -1,3 +1,11 @@
+# Trustpilot
+用户模拟登录trustpilot后台，抓取trustpilot评论的功能
+
+### 安装
+```
+composer require crasp/trustpilot
+```
+
 ### 使用
 
 ```
