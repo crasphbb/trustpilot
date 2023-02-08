@@ -8,6 +8,7 @@
 namespace Crasp\Trustpilot;
 
 use Crasp\Trustpilot\Api\Authorize;
+use Crasp\Trustpilot\Api\Review;
 use Crasp\Trustpilot\Api\Search;
 
 class Trustpilot
@@ -90,5 +91,33 @@ class Trustpilot
         $search = new Search($this->token, $this->config);
 
         return $search->search($page, $limit, $filter);
+    }
+
+    /**
+     * @param string $id
+     * @param string $message
+     *
+     * @return array|\Psr\Http\Message\ResponseInterface|string
+     * @throws \Exception
+     * @author huangbinbin
+     * @date   2023/2/8 16:34
+     */
+    public function reply(string $id,string $message)
+    {
+        $review = new Review($this->token, $this->config);
+        return $review->reply($message,$id);
+    }
+
+    /**
+     * @param string $id
+     *
+     * @throws \Exception
+     * @author huangbinbin
+     * @date   2023/2/8 16:33
+     */
+    public function replyDelete(string $id)
+    {
+        $review = new Review($this->token, $this->config);
+        return $review->replyDelete($id);
     }
 }
