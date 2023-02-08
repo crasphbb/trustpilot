@@ -46,6 +46,21 @@ trait HasHttpRequest
     }
 
     /**
+     * @param       $endpoint
+     * @param array $headers
+     *
+     * @return array|ResponseInterface|string
+     * @author huangbinbin
+     * @date   2023/2/7 15:48
+     */
+    protected function delete($endpoint, $headers = [])
+    {
+        return $this->request('delete', $endpoint, [
+            'headers' => $headers
+        ]);
+    }
+
+    /**
      * Make a post request with json params.
      *
      * @param       $endpoint
