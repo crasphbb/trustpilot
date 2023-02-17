@@ -42,11 +42,12 @@ class Review
      * @param string $message
      * @param string $id
      *
+     * @return bool
      * @throws \Exception
      * @author huangbinbin
      * @date   2023/2/7 15:40
      */
-    public function reply(string $message,string $id)
+    public function reply(string $message,string $id): bool
     {
         if (!$id || !$message) {
             throw new \Exception('参数错误');
@@ -57,10 +58,14 @@ class Review
             'Authorization' => 'Bearer ' . $this->token,
         ];
         $url = sprintf($this->replyUrl,$id);
-        $response = $this->postJson($url, [
-            'message' => $message
-        ], $headers);
-        return $response;
+        try{
+             $this->postJson($url, [
+                'message' => $message
+            ], $headers);
+        }catch (\Exception $exception) {
+            throw new \Exception('操作异常，请稍后重试');
+        }
+        return true;
     }
 
     /**
@@ -68,11 +73,12 @@ class Review
      *
      * @param string $id
      *
+     * @return bool
      * @throws \Exception
      * @author huangbinbin
      * @date   2023/2/7 15:47
      */
-    public function replyDelete(string $id)
+    public function replyDelete(string $id): bool
     {
         if (!$id) {
             throw new \Exception('参数错误');
@@ -82,7 +88,12 @@ class Review
             'Authorization' => 'Bearer ' . $this->token,
         ];
         $url = sprintf($this->replyUrl,$id);
-        $response = $this->delete($url, $headers);
-        return $response;
+        try{
+            $this->delete($url, $headers);
+        }catch (\Exception $exception) {
+            throw new \Exception('操作异常，请稍后重试');
+        }
+
+        return true;
     }
 }
