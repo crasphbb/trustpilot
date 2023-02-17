@@ -68,6 +68,7 @@ class Review
      *
      * @param string $id
      *
+     * @return array|\Psr\Http\Message\ResponseInterface|string
      * @throws \Exception
      * @author huangbinbin
      * @date   2023/2/7 15:47
